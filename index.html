@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   
   <meta name="description" content="Experience world-class rock climbing in Wadi Rum, Jordan's stunning desert landscape. Join our guided tours and discover ancient sandstone formations.">
-  <link rel="stylesheet" href="/assets/main-d5f27ff0.css">
+  <link rel="stylesheet" href="/assets/main-dc3cabf1.css">
 </head>
 <body>
 
@@ -38,10 +38,15 @@
   <!-- HERO SECTION -->
   <section id="home" class="hero">
     <!-- Video Background -->
-    <video autoplay muted loop playsinline class="hero-video">
+    <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
       <source src="/assets/hero-video-slow-0a779cbb.webm" type="video/webm">
       <source src="/assets/hero-video-slow-3ebda402.mp4" type="video/mp4">
+      <!-- Fallback image -->
+      <div class="hero-bg absolute inset-0"></div>
     </video>
+    
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-black bg-opacity-50"></div>
     
     <div class="hero-content">
       <h1>Climb the Desert</h1>
@@ -91,30 +96,23 @@
       
       <div class="gallery">
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Jebel Rum">
+          <img src="/assets/jabal_rum_walk-611c32b3.png" alt="Jebel Rum">
           <div class="gallery-overlay">
             <h3>Jebel Rum<br>Jordan's Highest Peak</h3>
           </div>
         </div>
         
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Burdah Rock Bridge">
+          <img src="/assets/burdah-2cd24cfc.png" alt="Burdah Rock Bridge">
           <div class="gallery-overlay">
             <h3>Burdah Rock Bridge<br>Iconic Natural Arch</h3>
           </div>
         </div>
         
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Khazali Canyon">
+          <img src="/assets/khazali-4516cb51.png" alt="Khazali Canyon">
           <div class="gallery-overlay">
             <h3>Khazali Canyon<br>Narrow Slot Adventure</h3>
-          </div>
-        </div>
-        
-        <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Mushroom Rock">
-          <div class="gallery-overlay">
-            <h3>Mushroom Rock<br>Unique Formation</h3>
           </div>
         </div>
       </div>
@@ -134,7 +132,7 @@
           <div class="feature-icon">⛰️</div>
           <h3>Two-Day Climbing Adventure</h3>
           <p>Our signature climbing experience includes guided climbs on the most spectacular routes, desert camping under the stars, and traditional Bedouin meals.</p>
-          <a href="twoDayTour/" class="btn btn-primary" style="margin-top: 20px;">Explore Two-Day Tour</a>
+          <a href="tours/" class="btn btn-primary" style="margin-top: 20px;">Explore Two-Day Tour</a>
         </div>
         
         <div class="feature fade-in-up">
@@ -163,10 +161,10 @@
       </div>
       
       <div style="max-width: 900px; margin: 0 auto; border-radius: 12px; overflow: hidden; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);">
-        <video controls poster="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&q=80" style="width: 100%; height: auto;">
+        <video controls poster="/assets/burdah-2cd24cfc.png" style="width: 100%; height: auto;">
           <source src="/assets/hero-video-slow-0a779cbb.webm" type="video/webm">
           <source src="/assets/hero-video-slow-3ebda402.mp4" type="video/mp4">
-          <p>Your browser doesn't support HTML5 video. <a href="optimized-videos/hero-video-slow.mp4" style="color: #e67e22;">Download the video</a> instead.</p>
+          <p>Your browser doesn't support HTML5 video. <a href="videos/hero-video-slow.mp4" style="color: #e67e22;">Download the video</a> instead.</p>
         </video>
       </div>
     </div>
@@ -182,22 +180,22 @@
       
       <div class="gallery">
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Desert Climbing">
+          <img src="/assets/khazali-4516cb51.png" alt="Desert Climbing">
         </div>
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Sandstone Formations">
+          <img src="/assets/burdah-2cd24cfc.png" alt="Sandstone Formations">
         </div>
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Desert Sunset">
+          <img src="/assets/khazali-4516cb51.png" alt="Desert Sunset">
         </div>
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Rock Climbing">
+          <img src="/assets/jabal_rum_walk-611c32b3.png" alt="Rock Climbing">
         </div>
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Desert Landscape">
+          <img src="/assets/burdah-2cd24cfc.png" alt="Desert Landscape">
         </div>
         <div class="gallery-item">
-          <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Climbing Adventure">
+          <img src="/assets/khazali-4516cb51.png" alt="Climbing Adventure">
         </div>
       </div>
     </div>
@@ -230,7 +228,7 @@
           <ul>
             <li><a href="#about">About Wadi Rum</a></li>
             <li><a href="#climbing">Climbing Areas</a></li>
-            <li><a href="twoDayTour/">Two-Day Tour</a></li>
+            <li><a href="tours/">Two-Day Tour</a></li>
             <li><a href="guides/">Our Guides</a></li>
           </ul>
         </div>
