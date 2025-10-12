@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth" style="scroll-padding-top: 5rem;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wadi Rum 2-Day Adventure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Load Firebase SDKs -->
+    
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F5F5F4; /* stone-100 */
+        }
+        .font-display {
+            font-family: 'Playfair Display', serif;
+        }
+        .hero-bg {
+            background-image: url('/assets/panorama-hero-60136cd0.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        .map-marker {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e67e22; /* orange-600 */
+            border: 3px solid white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            z-index: 20;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        .map-marker:hover {
+            transform: scale(1.3);
+            background-color: #d35400; /* orange-700 */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* * 1. MAP ASPECT RATIO CONTROL (FIX FOR DIMENSIONS)
+         * This uses padding-top to set the height relative to the width, maintaining the aspect ratio of your map image.
+         * Calculate: (Image Height / Image Width) * 100 
+         * Default is 75% for a 4:3 image (800x600).
+         * !!! CHANGE THE 75% VALUE BELOW TO MATCH YOUR MAP IMAGE RATIO !!!
+        */
+        .map-ratio {
+            width: 100%;
+            padding-top: 75%; /* <<< ADJUST THIS PERCENTAGE (e.g., 56.25% for 16:9, 100% for 1:1) */
+            position: relative;
+        }
+        
+        #map-container {
+             /* Using the optimized Wadi Rum aerial view image */
+             background-image: url('/assets/airview-c11684fd.webp'), url('/assets/airview-979d934e.jpg');
+             background-size: cover; 
+             background-position: center; 
+             background-color: #d4a574; /* Desert sand color fallback */
+             position: absolute;
+             top: 0;
+             right: 0;
+             bottom: 0;
+             left: 0;
+             /* Add subtle overlay for better marker visibility */
+        }
+        #map-container::before {
+             content: '';
+             position: absolute;
+             top: 0;
+             left: 0;
+             right: 0;
+             bottom: 0;
+             background: rgba(139, 69, 19, 0.2); /* Subtle brown overlay for better contrast */
+             z-index: 1;
+        }
+        .map-marker {
+             z-index: 20; /* Ensure markers appear above overlay */
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/twoDayTour-56999ae3.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-3cfb730f.js">
+</head>
+<body>
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-200 shadow-sm">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-between items-center h-20">
+                <!-- BRANDING -->
+                <div class="font-bold text-2xl text-orange-600">
+                    <a href="../index.html">Wadi Rum Climbing</a>
+                </div>
+                
+                <!-- NAVIGATION MENU -->
+                <div class="flex space-x-8">
+                    <a href="../index.html#home" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">Home</a>
+                    <a href="../index.html#about" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">About</a>
+                    <a href="../index.html#climbing" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">Climbing</a>
+                    <a href="../index.html#tours" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">Tours</a>
+                    <a href="../index.html#gallery" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">Gallery</a>
+                    <a href="../guides/" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">Guides</a>
+                    <a href="../index.html#contact" class="text-stone-700 hover:text-orange-600 px-4 py-2 text-sm font-medium transition-colors duration-300">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <header class="relative h-[60vh] md:h-screen flex items-center justify-center text-white overflow-hidden" style="margin-top: 80px;">
+        <!-- Video Background -->
+        <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+            <source src="/assets/hero-video-slow-0a779cbb.webm" type="video/webm">
+            <source src="/assets/hero-video-slow-3ebda402.mp4" type="video/mp4">
+            <!-- Fallback image -->
+            <div class="hero-bg absolute inset-0"></div>
+        </video>
+        
+        <!-- Overlay -->
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        
+        <!-- Content -->
+        <div class="relative text-center p-4 z-10">
+            <h1 class="font-display text-4xl md:text-7xl font-bold">Wadi Rum</h1>
+            <p class="mt-4 text-xl md:text-3xl">A Two-Day Desert Adventure</p>
+        </div>
+    </header>
+
+    <nav class="sticky top-20 bg-white/90 backdrop-blur-sm shadow-lg z-40">
+        <div class="container mx-auto px-6">
+            <div class="flex justify-center items-center h-16">
+                <div class="flex space-x-8">
+                    <a href="#day1" class="text-stone-700 hover:text-orange-600 px-6 py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300 hover:bg-orange-50">Day 1: Northern Circuit</a>
+                    <a href="#day2" class="text-stone-700 hover:text-orange-600 px-6 py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300 hover:bg-orange-50">Day 2: Southern Peaks</a>
+                    <a href="#map" class="text-stone-700 hover:text-orange-600 px-6 py-3 rounded-full text-sm md:text-base font-medium transition-all duration-300 hover:bg-orange-50">Interactive Map</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mx-auto p-4 md:p-8">
+        
+        <section id="day1" class="py-20">
+            <div class="text-center mb-16">
+                <div class="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">Day 1</div>
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-800 mb-6">The Northern Circuit</h2>
+                <p class="text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed">Your journey begins at the Rest House, where you'll board a 4x4 to explore the iconic northern landscapes of Wadi Rum, filled with ancient history and breathtaking natural formations.</p>
+                
+                <!-- Guide Introduction -->
+                <div class="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto mt-12">
+                    <div class="flex items-center gap-6 mb-6">
+                        <img src="/assets/salamah_jabal_rum-4ecd54ff.jpeg" alt="Salamah Alzalabia" class="w-20 h-20 rounded-full object-cover border-4 border-orange-200">
+                        <div class="text-left flex-1">
+                            <h3 class="text-xl font-bold text-stone-800 mb-1">Your Guide: Salamah Alzalabia</h3>
+                            <p class="text-orange-600 font-semibold mb-2">ENSA Certified Mountain Guide</p>
+                            <p class="text-sm text-stone-600">Born and raised in Wadi Rum village, Salamah combines ancestral desert knowledge with international mountain guiding certification.</p>
+                        </div>
+                        <a href="../guides/" class="bg-orange-600 hover:bg-orange-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+                            View Full Profile
+                        </a>
+                    </div>
+                    
+                    <!-- Contact Options -->
+                    <div class="flex gap-4 justify-center pt-4 border-t border-gray-200">
+                        <a href="https://www.instagram.com/wadirumrockclimbing/" target="_blank" class="flex items-center gap-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            Instagram
+                        </a>
+                        <a href="http://wa.me/962775355605" target="_blank" class="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-full text-sm font-medium hover:scale-105 transition-transform">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                            WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div id="day1-content" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            </div>
+        </section>
+
+        <section id="day2" class="py-20 glass-effect rounded-3xl shadow-xl mx-4">
+            <div class="text-center mb-16 px-8">
+                <div class="inline-block px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium mb-4">Day 2</div>
+                <h2 class="font-display text-4xl md:text-5xl font-bold text-stone-800 mb-6">Southern Vistas & Hikes</h2>
+                <p class="text-lg text-stone-600 max-w-3xl mx-auto leading-relaxed">The second day takes you to the serene south, offering stunning panoramic views, a rewarding hike to Jabal Hash, and a chance to see famous Martian-like movie locations.</p>
+            </div>
+            <div id="day2-content" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 max-w-7xl mx-auto px-8">
+            </div>
+        </section>
+
+        <section id="map" class="py-12 md:py-16">
+            <div class="text-center mb-12">
+                <h2 class="font-display text-3xl md:text-4xl font-bold text-stone-800">Interactive Tour Map</h2>
+                <p class="mt-4 text-stone-600 max-w-2xl mx-auto">Explore the locations on our tour. Click on any numbered marker to see details about that stop.</p>
+            </div>
+            <!-- Map container using the aspect ratio fix (.map-ratio) -->
+            <div class="w-full max-w-4xl mx-auto rounded-2xl shadow-xl overflow-hidden map-ratio">
+                <div id="map-container">
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <footer class="bg-stone-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">Contact Us</h3>
+                    <ul class="space-y-2">
+                        <li><a href="mailto:info@wadirum-climbing.com" class="text-stone-300 hover:text-orange-400 transition-colors">info@wadirum-climbing.com</a></li>
+                        <li><a href="tel:+962123456789" class="text-stone-300 hover:text-orange-400 transition-colors">+962 12 345 6789</a></li>
+                        <li class="text-stone-300">Wadi Rum Village, Jordan</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../index.html#about" class="text-stone-300 hover:text-orange-400 transition-colors">About Wadi Rum</a></li>
+                        <li><a href="../index.html#climbing" class="text-stone-300 hover:text-orange-400 transition-colors">Climbing Areas</a></li>
+                        <li><a href="index.html" class="text-stone-300 hover:text-orange-400 transition-colors">Two-Day Tour</a></li>
+                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">All Tours</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">Services</h3>
+                    <ul class="space-y-2">
+                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Guided Climbing</a></li>
+                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Equipment Rental</a></li>
+                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Desert Camping</a></li>
+                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Transportation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-orange-400 mb-4">Follow Us</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">Instagram</a></li>
+                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">Facebook</a></li>
+                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">YouTube</a></li>
+                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">TripAdvisor</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center pt-8 border-t border-stone-700">
+                <p class="text-stone-400">&copy; 2024 Wadi Rum Climbing. All rights reserved. | Experience the magic of Jordan's desert climbing.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Map Point Details -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-50 hidden transition-opacity duration-300">
+        <div id="modal-content" class="bg-white rounded-lg shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300">
+            <img id="modal-image" src="" alt="Location image" class="w-full h-64 object-cover">
+            <div class="p-6 relative">
+                <button id="close-modal" class="absolute top-4 right-4 text-stone-500 hover:text-stone-800 text-2xl">&times;</button>
+                <h3 id="modal-title" class="font-display text-2xl font-bold text-stone-800"></h3>
+                <p id="modal-description" class="mt-4 text-stone-600"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tour Data defining all stops, including placeholder coordinates
+        const tourData = [
+            {
+                day: 1,
+                id: 1,
+                title: "Lawrence's Spring",
+                description: "Stop at Lawrence's spring, see Thamudic inscriptions, and take a 10-minute easy climb to the spring for a nice view.",
+                img: "../optimized-images/spring.jpg",
+                // Lawrence's Spring - Northern area
+                coords: { top: '25%', left: '40%' } 
+            },
+            {
+                day: 1,
+                id: 2,
+                title: "Red Sand Dune",
+                description: "Enjoy walking barefoot on the soft, warm sand and a breathtaking view of Wadi Rum's main canyon. A perfect place to play on the dunes.",
+                img: "../optimized-images/dune.jpg",
+                // Red Sand Dune - Eastern area
+                coords: { top: '30%', left: '70%' }
+            },
+            {
+                day: 1,
+                id: 3,
+                title: "Khazali Canyon",
+                description: "One of the most beautiful spots in Rum, a shady, lush canyon full of water, inscriptions, history, and more.",
+                img: "../optimized-images/khazali.jpg",
+                // Khazali Canyon - Western area
+                coords: { top: '35%', left: '25%' }
+            },
+            {
+                day: 1,
+                id: 4,
+                title: "Little Bridge",
+                description: "One of the most scenic spots in Rum. It's a short, easy climb to this beautiful little natural rock bridge.",
+                img: "../optimized-images/little_bridge.jpg",
+                // Little Bridge - Central area
+                coords: { top: '40%', left: '55%' }
+            },
+            {
+                day: 1,
+                id: 5,
+                title: "Lawrence's House",
+                description: "A historical spot where Lawrence of Arabia lived in Rum. Offers a nice view of the surrounding area from above.",
+                img: "../optimized-images/house.jpg",
+                // Lawrence's House - Western area
+                coords: { top: '45%', left: '20%' }
+            },
+            {
+                day: 1,
+                id: 6,
+                title: "Mushroom Rock & Lunch",
+                description: "Enjoy a traditional lunch in a shady spot near the famous Mushroom Rock formation.",
+                img: "../optimized-images/mushroom.jpg",
+                // Mushroom Rock - Eastern area
+                coords: { top: '50%', left: '75%' }
+            },
+            {
+                day: 1,
+                id: 7,
+                title: "Burdah Bridge Viewpoint",
+                description: "We'll stop to watch and appreciate the beauty of Burdah Bridge, one of the classic and most famous rock arches in the area.",
+                img: "../optimized-images/burdah.jpg",
+                // Burdah Bridge - Central area
+                coords: { top: '55%', left: '45%' }
+            },
+            {
+                day: 2,
+                id: 8,
+                title: "Abu Khashaba Canyon",
+                description: "Explore the narrow, sandy passage of Abu Khashaba, which requires a short walk through the gorge.",
+                img: "../optimized-images/AbuKhashaba.jpg",
+                // Abu Khashaba Canyon - Southern western area
+                coords: { top: '65%', left: '30%' }
+            },
+            {
+                day: 2,
+                id: 9,
+                title: "Um Fruth Rock Bridge",
+                description: "A stunning natural rock arch that is much larger than the Little Bridge, offering great photo opportunities.",
+                img: "../optimized-images/UmFruth.jpg",
+                // Um Fruth Rock Bridge - Southern central area
+                coords: { top: '70%', left: '50%' }
+            },
+            {
+                day: 2,
+                id: 10,
+                title: "Jabal Hash Hike (5,584 ft)",
+                description: "A rewarding 2-hour hike to the top of Jabal Hash, providing panoramic views over the vast Wadi Sabbit.",
+                img: "../optimized-images/hash.jpg",
+                // Jabal Hash - Southern eastern area
+                coords: { top: '75%', left: '65%' }
+            },
+            {
+                day: 2,
+                id: 11,
+                title: "South Rum Filming Location",
+                description: "Visit the area used for filming famous 'Martian' scenes, with its unique, flat, and wide landscape.",
+                img: "../optimized-images/southView.jpg",
+                // South Rum Filming Location - Far southern area
+                coords: { top: '85%', left: '40%' }
+            },
+            {
+                day: 2,
+                id: 12,
+                title: "Um al-Samn Rock Bridge (The Eye)",
+                description: "A dramatic, solitary rock formation standing tall against the horizon, resembling a tower or spire.",
+                img: "../optimized-images/theEye.jpg",
+                // The Eye - Southern eastern area
+                coords: { top: '80%', left: '80%' }
+            },
+            {
+                day: 2,
+                id: 13,
+                title: "Chicken Rock",
+                description: "A fascinating rock formation that, depending on the angle, resembles a chicken or a pharaoh's head.",
+                img: "../optimized-images/chickenRock.jpg",
+                // Chicken Rock - Far southern western area
+                coords: { top: '90%', left: '25%' }
+            },
+            {
+                day: 2,
+                id: 14,
+                title: "Sunset Viewpoint",
+                description: "The final stop, offering an unforgettable view as the sun sets over the Wadi Rum desert.",
+                img: "../optimized-images/sunset.jpg",
+                // Sunset Viewpoint - Northern area near village
+                coords: { top: '15%', left: '15%' }
+            }
+        ];
+
+        const mapContainer = document.getElementById('map-container');
+        const day1Content = document.getElementById('day1-content');
+        const day2Content = document.getElementById('day2-content');
+        const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDescription = document.getElementById('modal-description');
+        const modalImage = document.getElementById('modal-image');
+        const closeModalButton = document.getElementById('close-modal');
+
+        // Helper to generate Card HTML
+        function generateCard(stop) {
+            const webpImg = stop.img.replace('.jpg', '.webp');
+            return `
+                <div id="card-${stop.id}" data-id="${stop.id}" class="bg-white rounded-2xl shadow-lg overflow-hidden card-hover cursor-pointer itinerary-card group" onclick="openModal(${stop.id})">
+                    <div class="relative h-56 overflow-hidden">
+                        <picture>
+                            <source srcset="${webpImg}" type="image/webp">
+                            <img src="${stop.img}" alt="${stop.title}" class="w-full h-full object-cover" loading="lazy" onerror="this.src='https://placehold.co/600x400/606060/ffffff?text=Image+Unavailable'">
+                        </picture>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div class="absolute top-4 left-4 bg-orange-600 text-white px-3 py-1 rounded-full text-xs font-semibold">Stop ${stop.id}</div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display text-xl font-bold text-stone-800 mb-3 group-hover:text-orange-600 transition-colors">${stop.title}</h3>
+                        <p class="text-stone-600 text-sm leading-relaxed mb-4">${stop.description.substring(0, 120)}...</p>
+                        <div class="flex items-center text-orange-600 font-medium text-sm group-hover:text-orange-700 transition-colors">
+                            <span>View Details</span>
+                            <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Helper to generate Map Marker HTML
+        function generateMarker(stop) {
+            const marker = document.createElement('div');
+            marker.className = 'map-marker';
+            marker.id = `marker-${stop.id}`;
+            marker.dataset.id = stop.id;
+            marker.style.top = stop.coords.top;
+            marker.style.left = stop.coords.left;
+            marker.textContent = stop.id;
+            marker.onclick = (e) => {
+                e.stopPropagation(); // Prevent map container click if it had an event
+                openModal(stop.id);
+            };
+            return marker;
+        }
+
+        // Initialize App UI
+        function initializeUI() {
+            // 1. Populate Itinerary Cards
+            day1Content.innerHTML = tourData.filter(d => d.day === 1).map(generateCard).join('');
+            day2Content.innerHTML = tourData.filter(d => d.day === 2).map(generateCard).join('');
+
+            // 2. Populate Map Markers
+            tourData.forEach(stop => {
+                mapContainer.appendChild(generateMarker(stop));
+            });
+        }
+
+        // Function to open the detail modal
+        window.openModal = function(id) {
+            const stop = tourData.find(s => s.id === id);
+            if (!stop) return;
+
+            modalImage.src = stop.img;
+            modalImage.onerror = () => { modalImage.src = 'https://placehold.co/600x400/606060/ffffff?text=Image+Unavailable'; };
+            modalTitle.textContent = stop.title;
+            modalDescription.textContent = stop.description;
+            
+            // Highlight the corresponding map marker
+            highlightMarker(id);
+
+            modal.classList.remove('hidden');
+            // Allow smooth animation
+            setTimeout(() => {
+                modal.style.opacity = '1';
+                modalContent.style.transform = 'scale(1)';
+            }, 10);
+        }
+
+        // Function to close the detail modal
+        function closeModal() {
+            modal.style.opacity = '0';
+            modalContent.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                clearHighlights();
+            }, 300); // Matches CSS transition duration
+        }
+
+        // Function to highlight a specific marker and its card
+        function highlightMarker(id) {
+            // Clear existing highlights
+            document.querySelectorAll('.map-marker').forEach(m => m.classList.remove('!bg-orange-400', '!scale-150', 'z-20'));
+            document.querySelectorAll('.itinerary-card').forEach(c => c.classList.remove('ring-4', 'ring-orange-500/50'));
+
+            // Apply new highlight
+            const marker = document.getElementById(`marker-${id}`);
+            const card = document.getElementById(`card-${id}`);
+            
+            if (marker) {
+                marker.classList.add('!bg-orange-400', '!scale-150', 'z-20');
+            }
+            if (card) {
+                card.classList.add('ring-4', 'ring-orange-500/50');
+            }
+        }
+        
+        // Function to clear all highlights
+        function clearHighlights() {
+            document.querySelectorAll('.map-marker').forEach(m => m.classList.remove('!bg-orange-400', '!scale-150', 'z-20'));
+            document.querySelectorAll('.itinerary-card').forEach(c => c.classList.remove('ring-4', 'ring-orange-500/50'));
+        }
+
+        // Event listeners for modal
+        closeModalButton.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            // Close if clicking outside the modal content
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+        
+        // Initial setup on window load
+        window.onload = initializeUI;
+
+        // Floating chat functionality
+        const chatButton = document.getElementById('chat-button');
+        const chatOptions = document.getElementById('chat-options');
+        const closeChat = document.getElementById('close-chat');
+
+        chatButton.addEventListener('click', function() {
+            chatOptions.classList.remove('hidden');
+            setTimeout(() => {
+                chatOptions.classList.add('show');
+            }, 10);
+        });
+
+        closeChat.addEventListener('click', function() {
+            chatOptions.classList.remove('show');
+            setTimeout(() => {
+                chatOptions.classList.add('hidden');
+            }, 300);
+        });
+
+        // Close chat when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!document.getElementById('floating-chat').contains(e.target)) {
+                chatOptions.classList.remove('show');
+                setTimeout(() => {
+                    chatOptions.classList.add('hidden');
+                }, 300);
+            }
+        });
+    </script>
+
+    <!-- FLOATING CHAT WIDGET -->
+    <div id="floating-chat" class="floating-chat">
+        <div id="chat-button" class="chat-button">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4v3c0 .6.4 1 1 1 .2 0 .3 0 .4-.1L14.6 18H20c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-7 12h-2v-2h2v2zm0-4h-2V6h2v4z"/>
+            </svg>
+            <span>Chat with us</span>
+        </div>
+        
+        <div id="chat-options" class="chat-options hidden">
+            <div class="chat-header">
+                <h4>Contact Our Guides</h4>
+                <button id="close-chat" class="close-chat">&times;</button>
+            </div>
+            
+            <div class="guide-option">
+                <img src="/assets/salamah_jabal_rum-4ecd54ff.jpeg" alt="Salamah" class="guide-avatar">
+                <div class="guide-info">
+                    <h5>Salamah Alzalabia</h5>
+                    <p>Local Expert & ENSA Guide</p>
+                    <div class="contact-buttons">
+                        <a href="http://wa.me/962775355605" target="_blank" class="contact-btn whatsapp">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                            WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/wadirumrockclimbing/" target="_blank" class="contact-btn instagram">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="guide-option">
+                <img src="/assets/Ali_climbing_1-2b7f7b41.png" alt="Ali" class="guide-avatar">
+                <div class="guide-info">
+                    <h5>Ali Hussein</h5>
+                    <p>International Guide & Route Developer</p>
+                    <div class="contact-buttons">
+                        <a href="http://wa.me/962788450926" target="_blank" class="contact-btn whatsapp">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                            </svg>
+                            WhatsApp
+                        </a>
+                        <a href="https://www.instagram.com/alih.jo" target="_blank" class="contact-btn instagram">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FLOATING CHAT STYLES -->
+    <style>
+        .floating-chat {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+        
+        .chat-button {
+            background: linear-gradient(135deg, #e67e22, #f39c12);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .chat-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(230, 126, 34, 0.4);
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3); }
+            50% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.6); }
+            100% { box-shadow: 0 8px 25px rgba(230, 126, 34, 0.3); }
+        }
+        
+        .chat-options {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .chat-options.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .chat-header {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .chat-header h4 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .close-chat {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.3s ease;
+        }
+        
+        .close-chat:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .guide-option {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 15px;
+            align-items: flex-start;
+        }
+        
+        .guide-option:last-child {
+            border-bottom: none;
+        }
+        
+        .guide-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #e67e22;
+        }
+        
+        .guide-info h5 {
+            margin: 0 0 5px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .guide-info p {
+            margin: 0 0 15px 0;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .contact-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .contact-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        
+        .contact-btn.whatsapp:hover {
+            background: #128C7E;
+            transform: translateY(-1px);
+        }
+        
+        .contact-btn.instagram {
+            background: linear-gradient(45deg, #f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);
+            color: white;
+        }
+        
+        .contact-btn.instagram:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(188, 24, 136, 0.3);
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .floating-chat {
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .chat-options {
+                width: 300px;
+                right: -20px;
+            }
+            
+            .chat-button span {
+                display: none;
+            }
+            
+            .chat-button {
+                width: 60px;
+                height: 60px;
+                border-radius: 50%;
+                padding: 0;
+                justify-content: center;
+            }
+        }
+    </style>
+</body>
+</html>
