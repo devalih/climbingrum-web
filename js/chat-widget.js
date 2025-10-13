@@ -119,7 +119,7 @@ class ChatWidget {
         
         // Determine the correct path based on current location
         const currentPath = window.location.pathname;
-        const basePath = currentPath.includes('/guides/') || currentPath.includes('/tours/') ? '../js/' : 'js/';
+        const basePath = currentPath.includes('/guides/') || currentPath.includes('/tours/') || currentPath.includes('/day-climbing/') || currentPath.includes('/mountain-adventure/') ? '../js/' : 'js/';
         link.href = basePath + 'chat-widget.css';
         
         document.head.appendChild(link);
