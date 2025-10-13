@@ -16,22 +16,14 @@
     <!-- NAVIGATION -->
     <nav class="header-nav">
         <div class="container flex space-between align-center">
-            <!-- BRANDING -->
-            <div class="brand">
-                <a href="../index.html">Wadi Rum Climbing</a>
-            </div>
-            
-            <!-- NAVIGATION MENU -->
-            <div class="flex align-center">
-                <ul class="nav-list">
-                    <li><a href="../index.html#home">Home</a></li>
-                    <li><a href="../index.html#about">About</a></li>
-                    <li><a href="index.html" class="active">4x4 Tours</a></li>
-                    <li><a href="../index.html#tours">Climbing Tours</a></li>
-                    <li><a href="../guides/">Guides</a></li>
-                    <li><a href="../guides/#contact">Contact</a></li>
-                </ul>
-            </div>
+            <div class="brand"><a href="../index.html">Climbing Rum</a></div>
+            <ul class="nav-list">
+                <li><a href="../day-climbing/">Climbing</a></li>
+                <li><a href="../mountain-adventure/">Mountains</a></li>
+                <li><a href="../tours/">4x4 Tours</a></li>
+                <li><a href="../guides/">Guides</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
         </div>
     </nav>
 
@@ -128,52 +120,34 @@
 
     </main>
     
-    <footer class="bg-stone-800 text-white py-12">
-        <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-                <div>
-                    <h3 class="text-xl font-bold text-orange-400 mb-4">Contact Us</h3>
-                    <ul class="space-y-2">
-                        <li><a href="mailto:salamhwadirum@gmail.com" class="text-stone-300 hover:text-orange-400 transition-colors">salamhwadirum@gmail.com</a></li>
-                        <li><a href="tel:+962775355605" class="text-stone-300 hover:text-orange-400 transition-colors">+962 77 535 5605</a></li>
-                        <li class="text-stone-300">Wadi Rum Village, Jordan</li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-xl font-bold text-orange-400 mb-4">Quick Links</h3>
-                    <ul class="space-y-2">
-                        <li><a href="../index.html#about" class="text-stone-300 hover:text-orange-400 transition-colors">About Wadi Rum</a></li>
-                        <li><a href="../index.html#climbing" class="text-stone-300 hover:text-orange-400 transition-colors">Climbing Areas</a></li>
-                        <li><a href="index.html" class="text-stone-300 hover:text-orange-400 transition-colors">Two-Day Tour</a></li>
-                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">All Tours</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-xl font-bold text-orange-400 mb-4">Services</h3>
-                    <ul class="space-y-2">
-                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Guided Climbing</a></li>
-                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Equipment Rental</a></li>
-                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Desert Camping</a></li>
-                        <li><a href="../index.html#tours" class="text-stone-300 hover:text-orange-400 transition-colors">Transportation</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="text-xl font-bold text-orange-400 mb-4">Follow Us</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">Instagram</a></li>
-                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">Facebook</a></li>
-                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">YouTube</a></li>
-                        <li><a href="#" class="text-stone-300 hover:text-orange-400 transition-colors">TripAdvisor</a></li>
-                    </ul>
-                </div>
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="footer-section">
+                <h3>Climbing Rum</h3>
+                <ul>
+                    <li>🇯🇴 100% Jordanian Owned & Run</li>
+                    <li>Wadi Rum Village, Jordan</li>
+                </ul>
             </div>
-            
-            <div class="text-center pt-8 border-t border-stone-700">
-                <p class="text-stone-400">&copy; 2024 Wadi Rum Climbing. All rights reserved. | Experience the magic of Jordan's desert climbing.</p>
+            <div class="footer-section">
+                <h3>Explore</h3>
+                <ul>
+                    <li><a href="../day-climbing/">Climbing</a></li>
+                    <li><a href="../mountain-adventure/">Mountains</a></li>
+                    <li><a href="../tours/">4x4 Tours</a></li>
+                    <li><a href="../guides/">Guides</a></li>
+                </ul>
             </div>
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <li><a href="https://wa.me/962775355605" target="_blank">WhatsApp: +962 77 535 5605</a></li>
+                    <li><a href="mailto:salamhwadirum@gmail.com">salamhwadirum@gmail.com</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>© 2025 Climbing Rum — Authentic Bedouin Climbing Guides</p>
         </div>
     </footer>
 
@@ -276,7 +250,7 @@ const tourData = [
     {
         day: 2,
         id: 10,
-        title: "Jabal Hash Hike (5,584 ft)",
+        title: "Jabal Hash Hike (1,701m)",
         description: "A rewarding 2-hour hike to the top of Jabal Hash, providing panoramic views over the vast Wadi Sabbit.",
         img: "/images/hash.png",
         coords: { top: '75%', left: '65%' }
