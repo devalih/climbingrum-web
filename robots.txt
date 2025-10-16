@@ -1,0 +1,22 @@
+# Allow all crawlers
+User-agent: *
+Allow: /
+
+# AI Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+# Sitemap
+Sitemap: https://www.climbingrum.com/sitemap.xml
