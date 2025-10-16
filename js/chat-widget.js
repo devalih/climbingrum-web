@@ -9,17 +9,10 @@ class ChatWidget {
             guides: [
                 {
                     name: 'Salamah Alzalabia',
-                    title: 'Local Expert & ENSA Guide',
+                    title: 'ENSA Certified Mountain Guide',
                     avatar: '../images/salamah_jabal_rum.jpeg',
                     whatsapp: '962775355605',
                     instagram: 'wadirumrockclimbing'
-                },
-                {
-                    name: 'Ali Hussein',
-                    title: 'International Guide & Route Developer',
-                    avatar: '../images/Ali_climbing_1.png',
-                    whatsapp: '962788450926',
-                    instagram: 'alih.jo'
                 }
             ],
             ...options
