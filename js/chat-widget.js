@@ -134,9 +134,10 @@ class ChatWidget {
             return;
         }
 
-        // Open chat
-        this.elements.chatButton.addEventListener('click', () => {
-            this.openChat();
+        // Toggle chat
+        this.elements.chatButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.toggleChat();
         });
 
         // Close chat
@@ -155,6 +156,18 @@ class ChatWidget {
         this.elements.chatOptions.addEventListener('click', (e) => {
             e.stopPropagation();
         });
+    }
+
+    /**
+     * Toggle the chat widget
+     */
+    toggleChat() {
+        const isHidden = this.elements.chatOptions.classList.contains('hidden');
+        if (isHidden) {
+            this.openChat();
+        } else {
+            this.closeChat();
+        }
     }
 
     /**
