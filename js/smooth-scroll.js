@@ -31,9 +31,9 @@ function initializeScrollEffects() {
         const nav = document.querySelector('.header-nav');
         if (nav) {
             if (window.scrollY > 100) {
-                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                nav.style.backgroundColor = 'rgba(245, 230, 211, 0.98)';
             } else {
-                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                nav.style.backgroundColor = 'rgba(245, 230, 211, 0.95)';
             }
         }
     });
