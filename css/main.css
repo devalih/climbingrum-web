@@ -145,6 +145,24 @@ img { max-width: 100%; height: auto; }
   width: 100%;
 }
 
+/* Book Now Button */
+.book-now-btn {
+  background: linear-gradient(135deg, #e67e22, #d97706) !important;
+  color: white !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 6px rgba(230, 126, 34, 0.3);
+}
+.book-now-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(230, 126, 34, 0.5) !important;
+}
+.book-now-btn:after {
+  display: none !important;
+}
+
 /* HERO SECTION */
 .hero {
   height: 100vh;
